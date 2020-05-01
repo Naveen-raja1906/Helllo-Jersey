@@ -8,15 +8,6 @@ public class Restaurant {
     private String name;
     private String location;
     private String cuisine;
-    private int menuid;
-
-    public int getMenuid() {
-        return menuid;
-    }
-
-    public void setMenuid(int menuid) {
-        this.menuid = menuid;
-    }
 
     public int getId() {
         return id;
@@ -48,5 +39,15 @@ public class Restaurant {
 
     public void setCuisine(String cuisine) {
         this.cuisine = cuisine;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", cuisine='" + cuisine + '\'' +
+                '}';
     }
 }

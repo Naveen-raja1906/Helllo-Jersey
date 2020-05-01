@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class RestaurantRepository {
 
-    private DbConnector db;
-    Connection con = db.getConnection();
+    private DbConnector db = new DbConnector();
 
     public ArrayList<Restaurant> readRestaurant() {
         ArrayList<Restaurant> restaurants = new ArrayList<Restaurant>();
         try {
+            Connection con = db.getConnection();
             Statement smt = con.createStatement();
             String query = "select * from restaurants";
             ResultSet rs = smt.executeQuery(query);
@@ -20,7 +20,7 @@ public class RestaurantRepository {
                 r.setName(rs.getString(2));
                 r.setLocation(rs.getString(3));
                 r.setCuisine(rs.getString(4));
-
+                System.out.println(r);
                 restaurants.add(r);
             }
         }catch (SQLException e){
@@ -32,16 +32,14 @@ public class RestaurantRepository {
     public int createRestaurant(Restaurant r) {
         int rows = 0;
         try {
+            Connection con = db.getConnection();
             String query = "INSERT INTO public.restaurants(\n" +
-                    "\tid, name, location, cuisine, menuid)\n" +
-                    "\tVALUES (?, ?, ?, ?, ?);";
+                    "\tname, location, cuisine)\n" +
+                    "\tVALUES (?, ?, ?);";
             PreparedStatement smt = con.prepareStatement(query);
-            smt.setInt(1,r.getId());
-            smt.setString(2,r.getName());
-            smt.setString(3,r.getLocation());
-            smt.setString(4,r.getCuisine());
-            smt.setInt(5,r.getMenuid());
-
+            smt.setString(1,r.getName());
+            smt.setString(2,r.getLocation());
+            smt.setString(3,r.getCuisine());
             rows = smt.executeUpdate();
             System.out.println("Records Inserted : "+rows);
         }catch (SQLException e){
@@ -50,11 +48,37 @@ public class RestaurantRepository {
         return rows;
     }
 
-    public void updateRestaurant(String id) {
-        Connection con = db.getConnection();
+    public int updateRestaurant(Restaurant r) {
+        int rows = 0;
+        try {
+            Connection con = db.getConnection();
+            String query = "UPDATE public.restaurants SET\n" +
+                    "\tname = ?, location = ?, cuisine = ?" +
+                    "\tWHERE id = ?;";
+            PreparedStatement smt = con.prepareStatement(query);
+            smt.setInt(4,r.getId());
+            smt.setString(1,r.getName());
+            smt.setString(2,r.getLocation());
+            smt.setString(3,r.getCuisine());
+            rows = smt.executeUpdate();
+            System.out.println("Records Inserted : "+rows);
+        }catch (SQLException e){
+            System.out.println("SQLException in updateRestaurant :"+e.getMessage());
+        }
+        return rows;
     }
 
-    public void deleteRestaurant(int id) {
-        Connection con = db.getConnection();
+    public int deleteRestaurant(Restaurant r) {
+        int rows = 0;
+        try{
+            Connection con = db.getConnection();
+            String query = "DELETE FROM public.restaurants WHERE id = ?";
+            PreparedStatement smt = con.prepareStatement(query);
+            smt.setInt(1,r.getId());
+            rows = smt.executeUpdate();
+        }catch (SQLException e){
+            System.out.println("SQLException in deleteRestaurant :"+e.getMessage());
+        }
+        return rows;
     }
 }

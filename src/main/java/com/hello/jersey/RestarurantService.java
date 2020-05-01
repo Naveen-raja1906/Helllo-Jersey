@@ -17,24 +17,24 @@ public class RestarurantService {
     }
 
     @POST
-    @Path("/restaurant")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response createRestaurant(Restaurant r){
-       int rows =  rr.createRestaurant(r);
-       return Response.status(200).entity("Rows Inserted : "+rows).build();
+        System.out.println(r);
+        int rows =  rr.createRestaurant(r);
+        return Response.status(200).entity("Rows Inserted : "+rows).build();
     }
 
     @PUT
-    @Path("/{restaurant}")
     @Produces(MediaType.TEXT_PLAIN)
-    public void updateRestaurant(@PathParam("restaurant") String restaurant){
-        rr.updateRestaurant(restaurant);
+    public Response updateRestaurant(Restaurant r){
+        int rows = rr.updateRestaurant(r);
+        return Response.status(200).entity("Rows Inserted : "+rows).build();
     }
 
     @DELETE
-    @Path("/{id}")
     @Produces(MediaType.TEXT_PLAIN)
-    public void deleteRestaurant(@PathParam("id") int id){
-        rr.deleteRestaurant(id);
+    public Response deleteRestaurant(Restaurant r){
+        int rows = rr.deleteRestaurant(r);
+        return Response.status(200).entity("Rows Inserted : "+rows).build();
     }
 }

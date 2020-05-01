@@ -2,23 +2,40 @@ package com.hello.jersey;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-@Path("reataurants/menus")
+@Path("restaurants/menus")
 public class MenuService {
 
-    MenuRepository mr = new MenuRepository();
+    private MenuRepository rr = new MenuRepository();
 
     @GET
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public ArrayList<Menues> readMenu(int id){
-        return mr.readMenu(id);
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public ArrayList<Menu> readMenu(Restaurant restaurant){
+        return rr.readMenu(restaurant);
     }
 
     @POST
-    @Path("menu")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public int createMenu(Menues m){
-        return mr.createMenu(m);
+    public Response createMenu(Menu m){
+        System.out.println(m);
+        int rows =  rr.createMenu(m);
+        return Response.status(200).entity("Rows Inserted : "+rows).build();
+    }
+
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response updateMenu(Menu m){
+        int rows = rr.updateMenu(m);
+        return Response.status(200).entity("Rows Inserted : "+rows).build();
+    }
+
+    @DELETE
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response deleteMenu(Menu m){
+        int rows = rr.deleteMenu(m);
+        return Response.status(200).entity("Rows Inserted : "+rows).build();
     }
 }
