@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN"
+        "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+    <form-beans>
+        <form-bean name="restaurant" type="com.hello.jersey.Restaurant"/>
+        <form-bean name="menu" type="com.hello.jersey.Menu"/>
+    </form-beans>
+
+    <action-mappings>
+        <action
+                path="/restaurants"
+                type="com.hello.struts.Restaurantaction"
+                parameter="read"
+        >
+            <forward name="success" path="/jsp/restaurants.jsp"/>
+        </action>
+        <action
+                path="/add"
+                type="com.hello.struts.Restaurantaction"
+                parameter="create"
+                name="restaurant"
+                input="/jsp/restaurants.jsp"
+        >
+            <forward name="success" path="/restaurants.do"/>
+        </action>
+        <action
+                path="/delete"
+                type="com.hello.struts.Restaurantaction"
+                parameter="delete"
+                name="restaurant"
+                input="/jsp/restaurants.jsp"
+        >
+            <forward name="success" path="/restaurants.do"/>
+        </action>
+        <action
+                path="/edit"
+                type="com.hello.struts.Restaurantaction"
+                parameter="edit"
+                name="restaurant"
+                input="/jsp/restaurants.jsp"
+        >
+            <forward name="success" path="/restaurants.do"/>
+        </action>
+
+        <action
+                path="/restaurants/menus"
+                type="com.hello.struts.Menuaction"
+                name="menu"
+                parameter="read"
+                input="/jsp/restaurants.jsp"
+        >
+            <forward name="success" path="/jsp/menus.jsp"/>
+        </action>
+        <action
+                path="/restaurants/addM"
+                type="com.hello.struts.Menuaction"
+                parameter="create"
+                name="menu"
+                input="/jsp/menus.jsp"
+        >
+            <forward name="success" path="/restaurants/menus.do"/>
+        </action>
+        <action
+                path="/restaurants/deleteM"
+                type="com.hello.struts.Menuaction"
+                parameter="delete"
+                name="menu"
+                input="/jsp/menus.jsp"
+        >
+            <forward name="success" path="/restaurants/menus.do"/>
+        </action>
+        <action
+                path="/restaurants/editM"
+                type="com.hello.struts.Menuaction"
+                parameter="edit"
+                name="menu"
+                input="/jsp/menus.jsp"
+        >
+            <forward name="success" path="/restaurants/menus.do"/>
+        </action>
+    </action-mappings>
+
+</struts-config>
